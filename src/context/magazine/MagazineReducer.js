@@ -38,28 +38,20 @@ const magazineReducer = (state, action) => {
           ],
         };
       }
+      S;
 
     case REMOVE_PRODUCT:
       const productIndex = state.products.findIndex((item) => {
         return item.id === action.payload.id;
       });
-      if(productIndex ===-1){
+      if (productIndex === -1) {
         return {
           ...state,
           products: [
             ...state.products.filter((item) => item.id !== action.payload),
           ],
         };
-      }else{
-        return {
-          ...state,
-          products: [
-            ...state.products[productIndex], quantity: state.products[productIndex].quantity - 1,
-          
-          ],
-        };
       }
-      
 
     case INCREASE_COUNT:
       return { ...state, count: state.count + action.payload };
