@@ -1,17 +1,16 @@
 import {
   ADD_PRODUCT,
-  REMOVE_PRODUCT,
-  INCREASE_COUNT,
   DECREASE_COUNT,
+  INCREASE_COUNT,
+  REMOVE_PRODUCT,
 } from "../Types";
-
 const magazineReducer = (state, action) => {
   switch (action.type) {
     case ADD_PRODUCT:
-      const productIndexInOUT = state.products.findIndex((item) => {
-        return item.id === action.payload.id;
+      const productIndex = state.products.findIndex((item) => {
+        return item.id !== action.payload.id;
       });
-      if (productIndexInOUT === -1) {
+      if (productIndex === -1) {
         return {
           ...state,
           products: [
@@ -29,29 +28,23 @@ const magazineReducer = (state, action) => {
         return {
           ...state,
           products: [
-            ...state.products.slice(0, productIndexInOUT),
+            ...state.products.slice(0, productIndex),
             {
-              ...state.products[productIndexInOUT],
-              quantity: state.products[productIndexInOUT].quantity + 1,
+              ...state.products[productIndex],
+              quantity: state.products[productIndex].quantity + 1,
             },
-            ...state.products.slice(productIndexInOUT + 1),
+            ...state.products.slice(productIndex + 1),
           ],
         };
       }
-      S;
 
     case REMOVE_PRODUCT:
-      const productIndex = state.products.findIndex((item) => {
-        return item.id === action.payload.id;
-      });
-      if (productIndex === -1) {
-        return {
-          ...state,
-          products: [
-            ...state.products.filter((item) => item.id !== action.payload),
-          ],
-        };
-      }
+      return {
+        ...state,
+        products: [
+          ...state.products.filter((item) => item.id !== action.payload),
+        ],
+      };
 
     case INCREASE_COUNT:
       return { ...state, count: state.count + action.payload };
@@ -60,5 +53,4 @@ const magazineReducer = (state, action) => {
       return { ...state, count: state.count - action.payload };
   }
 };
-
 export default magazineReducer;
